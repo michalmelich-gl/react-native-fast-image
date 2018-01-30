@@ -9,7 +9,12 @@ RCT_ENUM_CONVERTER(FFFPriority, (@{
         @"high": @(FFFPriorityHigh),
 }), FFFPriorityNormal, integerValue);
 
-+ (FFFastImageSource *)FFFastImageSource:(id)json {
+RCT_MULTI_ENUM_CONVERTER(FFFOptions, (@{
+        @"none" : @(FFFOptionsNone),
+        @"refreshCachedImage" : @(FFFOptionsRefreshCachedImage)
+}), FFFOptionsNone, unsignedIntegerValue);
+
+(FFFastImageSource *)FFFastImageSource:(id)json {
     if (!json) {
         return nil;
     }
@@ -21,6 +26,8 @@ RCT_ENUM_CONVERTER(FFFPriority, (@{
     NSURL *urlPL = [self NSURL:URLPLSource];
 
     FFFPriority priority = [self FFFPriority:json[@"priority"]];
+    
+    FFFOptions options = [self FFFOptions:json[@"options"]];
 
     NSDictionary *headers = [self NSDictionary:json[@"headers"]];
     if (headers) {
@@ -39,7 +46,7 @@ RCT_ENUM_CONVERTER(FFFPriority, (@{
         }
     }
 
-    FFFastImageSource *imageSource = [[FFFastImageSource alloc] initWithURL:url placeholder:urlPL priority:priority headers:headers];
+    FFFastImageSource *imageSource = [[FFFastImageSource alloc] initWithURL:url placeholder:urlPL priority:priority headers:headers options:options];
 
     return imageSource;
 }

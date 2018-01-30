@@ -6,6 +6,11 @@ typedef NS_ENUM(NSInteger, FFFPriority) {
     FFFPriorityHigh
 };
 
+typedef NS_OPTIONS(NSUInteger, FFFOptions) {
+    FFFOptionsNone                 = 0,
+    FFFOptionsRefreshCachedImage   = 1 << 0
+};
+
 /**
  * Object containing an image URL and associated metadata.
  */
@@ -14,11 +19,13 @@ typedef NS_ENUM(NSInteger, FFFPriority) {
 @property (nonatomic) NSURL* uri;
 @property (nonatomic) NSURL* placeholder;
 @property (nonatomic) FFFPriority priority;
+@property (nonatomic) FFFOptions options;
 @property (nonatomic) NSDictionary *headers;
 
 - (instancetype)initWithURL:(NSURL *)url
                 placeholder:(NSURL *)placeholder
                    priority:(FFFPriority)priority
-                    headers:(NSDictionary *)headers;
+                    headers:(NSDictionary *)headers
+                    options:(FFFOptions)options;
 
 @end

@@ -35,6 +35,12 @@
         // Set priority.
         SDWebImageOptions options = 0;
         options |= SDWebImageRetryFailed;
+        
+        FFFOptions rctOptions = source.options;
+        if ((rctOptions & FFFOptionsRefreshCachedImage) == FFFOptionsRefreshCachedImage) {
+            options |= SDWebImageRefreshCached;
+        }
+        
         switch (_source.priority) {
             case FFFPriorityLow:
                 options |= SDWebImageLowPriority;

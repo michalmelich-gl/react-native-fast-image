@@ -111,6 +111,11 @@ FastImage.priority = {
   high: 'high',
 }
 
+FastImage.options = {
+  none: 'none',
+  refreshCachedImage: 'refreshCachedImage'
+}
+
 FastImage.preload = sources => {
   FastImageViewNativeModule.preload(sources)
 }
