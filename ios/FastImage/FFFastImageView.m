@@ -56,7 +56,7 @@
 
         // Load the new source.
         [self sd_setImageWithURL:_source.uri
-                placeholderImage:nil
+                placeholderImage:_source.placeholder
                          options:options
                         progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
                             double progress = MIN(1, MAX(0, (double) receivedSize / (double) expectedSize));

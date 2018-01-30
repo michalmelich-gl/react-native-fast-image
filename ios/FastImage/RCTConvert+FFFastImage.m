@@ -13,8 +13,12 @@ RCT_ENUM_CONVERTER(FFFPriority, (@{
     if (!json) {
         return nil;
     }
+    
     NSString *URLString = json[@"uri"];
     NSURL *url = [self NSURL:URLString];
+    
+    NSString *URLPLSource = json[@"placeholder"];
+    NSURL *urlPL = [self NSURL:URLPLSource];
 
     FFFPriority priority = [self FFFPriority:json[@"priority"]];
 
@@ -35,7 +39,7 @@ RCT_ENUM_CONVERTER(FFFPriority, (@{
         }
     }
 
-    FFFastImageSource *imageSource = [[FFFastImageSource alloc] initWithURL:url priority:priority headers:headers];
+    FFFastImageSource *imageSource = [[FFFastImageSource alloc] initWithURL:url placeholder:urlPL priority:priority headers:headers];
 
     return imageSource;
 }
