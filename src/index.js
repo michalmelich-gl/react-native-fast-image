@@ -120,6 +120,7 @@ const FastImageSourcePropType = PropTypes.shape({
     headers: PropTypes.objectOf(PropTypes.string),
     priority: PropTypes.oneOf(Object.keys(FastImage.priority)),
     cache: PropTypes.oneOf(Object.keys(FastImage.cacheControl)),
+    placeholder: PropTypes.string,
 })
 
 FastImage.propTypes = {
