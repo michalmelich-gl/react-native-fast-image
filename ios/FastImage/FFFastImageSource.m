@@ -5,8 +5,7 @@
 - (instancetype)initWithURL:(NSURL *)url
                    priority:(FFFPriority)priority
                     headers:(NSDictionary *)headers
-               cacheControl:(FFFCacheControl)cacheControl
-             placeholderName:(NSString *)placeholderName;
+               cacheControl:(FFFCacheControl)cacheControl;
 {
     self = [super init];
     if (self) {
@@ -14,7 +13,6 @@
         _priority = priority;
         _headers = headers;
         _cacheControl = cacheControl;
-        _placeholderName = placeholderName;
     }
     return self;
 }

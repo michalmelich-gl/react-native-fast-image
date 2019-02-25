@@ -24,13 +24,10 @@ typedef NS_ENUM(NSInteger, FFFCacheControl) {
 @property (nonatomic) NSDictionary *headers;
 // cache control mode
 @property (nonatomic) FFFCacheControl cacheControl;
-// placeholder image name
-@property (nonatomic) NSString* placeholderName;
 
 - (instancetype)initWithURL:(NSURL *)url
                    priority:(FFFPriority)priority
                     headers:(NSDictionary *)headers
-               cacheControl:(FFFCacheControl)cacheControl
-            placeholderName:(NSString *)placeholderName;
+               cacheControl:(FFFCacheControl)cacheControl;
 
 @end

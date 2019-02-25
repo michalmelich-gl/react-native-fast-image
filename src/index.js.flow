@@ -49,7 +49,6 @@ export type FastImageSource = {
     headers?: Object,
     priority?: Priorities,
     cache?: CacheControls,
-    placeholder?: string,
 }
 
 export type FastImageProps = $ReadOnly<{|
@@ -61,6 +60,7 @@ export type FastImageProps = $ReadOnly<{|
     onProgress?: ?(event: OnProgressEvent) => void,
 
     source: FastImageSource | number,
+    placeholder: FastImageSource | number,
 
     resizeMode?: ?ResizeModes,
     fallback?: ?boolean,
