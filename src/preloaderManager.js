@@ -25,16 +25,22 @@ class PreloaderManager {
     }
 
     onProgress = ({ id, finished, total }) => {
-        const { onProgress } = this._instances.get(id)
-        if (onProgress) {
-            onProgress(finished, total)
+        const instance = this._instances.get(id)
+        if (instance) {
+            const { onProgress } = instance
+            if (onProgress) {
+                onProgress(finished, total)
+            }
         }
     }
 
     onComplete = ({ id, finished, skipped }) => {
-        const { onComplete } = this._instances.get(id)
-        if (onComplete) {
-            onComplete(finished, skipped)
+        const instance = this._instances.get(id)
+        if (instance) {
+            const { onComplete } = instance
+            if (onComplete) {
+                onComplete(finished, skipped)
+            }
         }
         this._instances.delete(id)
         if (this._instances.size === 0) {
