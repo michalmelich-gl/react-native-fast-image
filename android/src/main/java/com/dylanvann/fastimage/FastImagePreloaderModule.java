@@ -32,7 +32,7 @@ class FastImagePreloaderModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void preload(final int preloaderId, final ReadableArray sources) {
+    public void preload(final int preloaderId, final ReadableArray sources, final String cacheControl) {
         final Activity activity = getCurrentActivity();
         if (activity == null) return;
         activity.runOnUiThread(new Runnable() {
