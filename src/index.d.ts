@@ -151,7 +151,9 @@ interface FastImageStatic extends React.ComponentClass<FastImageProperties> {
         cacheControl?: FastImage.Cache,
         onProgress?: PreloadProgressHandler,
         onComplete?: PreloadCompletionHandler,
-    ): void
+    ): number
+
+    cancelPreload(preloaderId: number): void
 }
 
 declare var FastImage: FastImageStatic

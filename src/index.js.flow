@@ -43,6 +43,9 @@ export type CacheControls = $Values<CacheControl>
 export type PreloadFn = (
     sources: Array<FastImageSource>,
     cacheControl?: CacheControls,
+) => number
+export type CancelPreloadFn = (
+    preloaderId: number
 ) => void
 export type FastImageSource = {
     uri?: string,
@@ -72,4 +75,5 @@ declare export default class FastImage extends React$Component<FastImageProps> {
     static priority: Priority;
     static cacheControl: CacheControl;
     static preload: PreloadFn;
+    static cancelPreload: CancelPreloadFn;
 }

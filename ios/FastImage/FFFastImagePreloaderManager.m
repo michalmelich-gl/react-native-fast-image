@@ -90,4 +90,9 @@ RCT_EXPORT_METHOD(preload:(nonnull NSNumber*)preloaderId sources:(nonnull NSArra
     [preloader prefetchURLs:urls];
 }
 
+RCT_EXPORT_METHOD(cancelPreload:(nonnull NSNumber*)preloaderId) {
+    FFFastImagePreloader* preloader = _preloaders[preloaderId];
+    [preloader cancelPrefetching];
+}
+
 @end

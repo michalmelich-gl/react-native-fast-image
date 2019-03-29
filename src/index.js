@@ -112,7 +112,11 @@ FastImage.preload = (
     onProgress,
     onComplete,
 ) => {
-    preloaderManager.preload(sources, cacheControl, onProgress, onComplete)
+    return preloaderManager.preload(sources, cacheControl, onProgress, onComplete)
+}
+
+FastImage.cancelPreload = preloaderId => {
+    preloaderManager.cancelPreload(preloaderId)
 }
 
 FastImage.defaultProps = {

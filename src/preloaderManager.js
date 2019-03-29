@@ -8,7 +8,7 @@ class PreloaderManager {
     _subComplete = null
 
     preload = (sources, cacheControl, onProgress, onComplete) => {
-        nativeManager.createPreloader().then(id => {
+        return nativeManager.createPreloader().then(id => {
             if (this._instances.size === 0) {
                 this._subProgress = nativeEmitter.addListener(
                     'fffastimage-progress',
@@ -21,7 +21,15 @@ class PreloaderManager {
             }
             this._instances.set(id, { onProgress, onComplete })
             nativeManager.preload(id, sources, cacheControl)
+            return id;
         })
+    }
+
+    cancelPreload = id => {
+        const instance = this._instances.get(id)
+        if (instance) {
+            nativeManager.cancelPreload(id)
+        }
     }
 
     onProgress = ({ id, finished, total }) => {
