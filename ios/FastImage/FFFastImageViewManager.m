@@ -36,5 +36,12 @@ RCT_EXPORT_METHOD(preload:(nonnull NSArray<FFFastImageSource *> *)sources)
     [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:urls];
 }
 
+RCT_EXPORT_METHOD(remove:(NSString*)source resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    [[SDImageCache sharedImageCache] removeImageForKey:source withCompletion:^{
+        resolve([[SDImageCache sharedImageCache] defaultCachePathForKey:source]);
+    }];
+}
+
 @end
 
