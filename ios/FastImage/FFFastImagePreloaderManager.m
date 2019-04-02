@@ -90,6 +90,13 @@ RCT_EXPORT_METHOD(preload:(nonnull NSNumber*)preloaderId sources:(nonnull NSArra
     [preloader prefetchURLs:urls];
 }
 
+RCT_EXPORT_METHOD(remove:(NSString*)source resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    [[SDImageCache sharedImageCache] removeImageForKey:source withCompletion:^{
+        resolve([[SDImageCache sharedImageCache] defaultCachePathForKey:source]);
+    }];
+}
+
 RCT_EXPORT_METHOD(cancelPreload:(nonnull NSNumber*)preloaderId) {
     FFFastImagePreloader* preloader = _preloaders[preloaderId];
     [preloader cancelPrefetching];
