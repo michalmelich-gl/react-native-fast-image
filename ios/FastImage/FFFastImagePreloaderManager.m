@@ -2,6 +2,17 @@
 #import "FFFastImagePreloader.h"
 #import "FFFastImageSource.h"
 
+@interface NSObject (Cast)
++ (instancetype)cast:(id)object;
+@end
+
+@implementation NSObject (Cast)
++ (instancetype)cast:(id)object
+{
+    return [object isKindOfClass:self] ? object : nil;
+}
+@end
+
 @implementation FFFastImagePreloaderManager
 {
     bool _hasListeners;
@@ -90,11 +101,26 @@ RCT_EXPORT_METHOD(preload:(nonnull NSNumber*)preloaderId sources:(nonnull NSArra
     [preloader prefetchURLs:urls];
 }
 
-RCT_EXPORT_METHOD(remove:(NSString*)source resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(remove:(NSObject*)source isArray:(BOOL)isArray resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
-    [[SDImageCache sharedImageCache] removeImageForKey:source withCompletion:^{
-        resolve([[SDImageCache sharedImageCache] defaultCachePathForKey:source]);
-    }];
+    SDImageCache* cache = [SDImageCache sharedImageCache];
+    NSString* sourceString = [NSString cast:source];
+    if (!isArray) {
+        [cache removeImageForKey:sourceString withCompletion:^{
+            resolve([cache makeDiskCachePath:sourceString]);
+        }];
+    } else {
+        NSArray* sourceArray = [NSArray cast:source];
+        __block int count = (int) [sourceArray count];
+        for (NSString* tmp in sourceArray) {
+            [cache removeImageForKey:tmp withCompletion:^{
+                count--;
+                if (count == 0) {
+                    resolve([NSString stringWithFormat:@"Removed %d images", count]);
+                }
+            }];
+        }
+    }
 }
 
 RCT_EXPORT_METHOD(cancelPreload:(nonnull NSNumber*)preloaderId) {

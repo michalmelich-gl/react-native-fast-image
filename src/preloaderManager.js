@@ -25,7 +25,7 @@ class PreloaderManager {
         })
     }
 
-    remove = source => nativeManager.remove(source)
+    remove = source => nativeManager.remove(source, Array.isArray(source))
 
     cancelPreload = id => {
         const instance = this._instances.get(id)
