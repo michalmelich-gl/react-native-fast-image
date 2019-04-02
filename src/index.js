@@ -119,6 +119,8 @@ FastImage.cancelPreload = preloaderId => {
     preloaderManager.cancelPreload(preloaderId)
 }
 
+FastImage.remove = source => preloaderManager.remove(source)
+
 FastImage.defaultProps = {
     resizeMode: FastImage.resizeMode.cover,
 }

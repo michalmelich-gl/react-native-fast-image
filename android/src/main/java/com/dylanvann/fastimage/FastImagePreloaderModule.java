@@ -63,4 +63,9 @@ class FastImagePreloaderModule extends ReactContextBaseJavaModule {
             }
         });
     }
+
+    @ReactMethod
+    public void remove(final ReadableArray sources, Promise promise) {
+        promise.resolve("Removing images from cache by sourse is not supported on Android.");
+    }
 }
