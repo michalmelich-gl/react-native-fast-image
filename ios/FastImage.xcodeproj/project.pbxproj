@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		75470991212F3C590040708C /* FFFastImagePreloaderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 75470990212F3C590040708C /* FFFastImagePreloaderManager.m */; };
 		75470994212F409B0040708C /* FFFastImagePreloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 75470993212F409B0040708C /* FFFastImagePreloader.m */; };
+		9E5CDF46225390CE0042B97D /* FFFastImagePreloaderConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E5CDF45225390CE0042B97D /* FFFastImagePreloaderConfig.m */; };
 		FCC6D1391EB3912D0065F944 /* libSDWebImage iOS static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCC6D0D01EB38D2F0065F944 /* libSDWebImage iOS static.a */; };
 		FCFB253F1EA5562700F59778 /* FFFastImageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFB25381EA5562700F59778 /* FFFastImageSource.m */; };
 		FCFB25401EA5562700F59778 /* FFFastImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFB253A1EA5562700F59778 /* FFFastImageView.m */; };
@@ -85,6 +86,8 @@
 		75470990212F3C590040708C /* FFFastImagePreloaderManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FFFastImagePreloaderManager.m; sourceTree = "<group>"; };
 		75470992212F3F9A0040708C /* FFFastImagePreloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FFFastImagePreloader.h; sourceTree = "<group>"; };
 		75470993212F409B0040708C /* FFFastImagePreloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FFFastImagePreloader.m; sourceTree = "<group>"; };
+		9E5CDF44225390CE0042B97D /* FFFastImagePreloaderConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FFFastImagePreloaderConfig.h; sourceTree = "<group>"; };
+		9E5CDF45225390CE0042B97D /* FFFastImagePreloaderConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FFFastImagePreloaderConfig.m; sourceTree = "<group>"; };
 		A287971D1DE0C0A60081BDFA /* libFastImage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFastImage.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCC6D0C61EB38D2F0065F944 /* SDWebImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDWebImage.xcodeproj; path = Vendor/SDWebImage/SDWebImage.xcodeproj; sourceTree = "<group>"; };
 		FCFB25371EA5562700F59778 /* FFFastImageSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFFastImageSource.h; sourceTree = "<group>"; };
@@ -162,6 +165,8 @@
 				75470990212F3C590040708C /* FFFastImagePreloaderManager.m */,
 				75470992212F3F9A0040708C /* FFFastImagePreloader.h */,
 				75470993212F409B0040708C /* FFFastImagePreloader.m */,
+				9E5CDF44225390CE0042B97D /* FFFastImagePreloaderConfig.h */,
+				9E5CDF45225390CE0042B97D /* FFFastImagePreloaderConfig.m */,
 			);
 			path = FastImage;
 			sourceTree = "<group>";
@@ -207,6 +212,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = A28797141DE0C0A60081BDFA;
@@ -275,6 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E5CDF46225390CE0042B97D /* FFFastImagePreloaderConfig.m in Sources */,
 				75470994212F409B0040708C /* FFFastImagePreloader.m in Sources */,
 				FCFB25411EA5562700F59778 /* FFFastImageViewManager.m in Sources */,
 				FCFB25421EA5562700F59778 /* RCTConvert+FFFastImage.m in Sources */,

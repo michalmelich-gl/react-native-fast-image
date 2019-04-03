@@ -1,6 +1,8 @@
 #import "FFFastImagePreloaderManager.h"
 #import "FFFastImagePreloader.h"
+#import "FFFastImagePreloaderConfig.h"
 #import "FFFastImageSource.h"
+#import <SDWebImage/SDImageCache.h>
 
 @implementation FFFastImagePreloaderManager
 {
@@ -54,6 +56,47 @@ RCT_EXPORT_MODULE(FastImagePreloaderManager);
      ];
 }
 
+RCT_EXPORT_METHOD(createPreloaderWithConfig:(FFFastImagePreloaderConfig *)config resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    if (!config) {
+        [self createPreloader:resolve rejecter:reject];
+        return;
+    }
+    
+    SDImageCache* cache = nil;
+    NSString *ns = config.ns;
+    if (!ns) {
+        cache = [SDImageCache sharedImageCache];
+    }
+    
+    NSString *diskCacheDirectory = nil;
+    
+    if (!cache) {
+        if (!config.cachePath) {
+            cache = [[SDImageCache alloc] initWithNamespace:ns diskCacheDirectory:nil];
+            
+        } else {
+            diskCacheDirectory = config.cachePath;
+            cache = [[SDImageCache alloc] initWithNamespace:ns diskCacheDirectory:diskCacheDirectory];
+//            [cache addReadOnlyCachePath:[cache makeDiskCachePath:cachePath]];
+        }
+
+        
+        
+        if (config.maxCacheAge > 0) {
+            cache.config.maxCacheAge = config.maxCacheAge; // one year
+        }
+    }
+//
+    SDWebImageDownloader *downloader = [SDWebImageDownloader sharedDownloader];
+    SDWebImageManager *imageManager = [[SDWebImageManager alloc] initWithCache:cache downloader:downloader];
+//
+    FFFastImagePreloader* preloader = [[FFFastImagePreloader alloc] initWithImageManager:imageManager];
+    preloader.delegate = self;
+    _preloaders[preloader.id] = preloader;
+    resolve(preloader.id);
+}
+
 RCT_EXPORT_METHOD(createPreloader:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     FFFastImagePreloader* preloader = [[FFFastImagePreloader alloc] init];
     preloader.delegate = self;
@@ -88,15 +131,6 @@ RCT_EXPORT_METHOD(preload:(nonnull NSNumber*)preloaderId sources:(nonnull NSArra
     preloader.options = options;
     
     [preloader prefetchURLs:urls];
-}
-
-RCT_EXPORT_METHOD(remove:(NSArray*)sources resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
-    SDImageCache* cache = [SDImageCache sharedImageCache];
-    for (NSString* tmp in sources) {
-        [cache removeImageForKey:tmp withCompletion:nil];
-    }
-    resolve([NSString stringWithFormat:@"Removed %ld images", (long) [sources count]]);
 }
 
 RCT_EXPORT_METHOD(cancelPreload:(nonnull NSNumber*)preloaderId) {

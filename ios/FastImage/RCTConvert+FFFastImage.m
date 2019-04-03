@@ -1,5 +1,6 @@
 #import "RCTConvert+FFFastImage.h"
 #import "FFFastImageSource.h"
+#import "FFFastImagePreloaderConfig.h"
 
 @implementation RCTConvert (FFFastImage)
 
@@ -46,6 +47,20 @@ RCT_ENUM_CONVERTER(FFFCacheControl, (@{
     FFFastImageSource *imageSource = [[FFFastImageSource alloc] initWithURL:uri priority:priority headers:headers cacheControl:cacheControl];
     
     return imageSource;
+}
+
++ (FFFastImagePreloaderConfig *)FFFastImagePreloaderConfig:(id)json {
+    if (!json) {
+        return nil;
+    }
+    
+    NSString *ns = json[@"namespace"];
+    NSString *cachePath = json[@"cachePath"];
+    NSInteger maxCacheAge = [json[@"maxCacheAge"] integerValue];
+    
+    FFFastImagePreloaderConfig *config = [[FFFastImagePreloaderConfig alloc] initWithNamespace:ns cachePath:cachePath maxCacheAge:maxCacheAge];
+    
+    return config;
 }
 
 RCT_ARRAY_CONVERTER(FFFastImageSource);
