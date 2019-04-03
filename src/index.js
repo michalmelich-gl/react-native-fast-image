@@ -6,6 +6,7 @@ import {
     requireNativeComponent,
     ViewPropTypes,
     StyleSheet,
+    NativeModules
 } from 'react-native'
 import preloaderManager from './preloaderManager'
 
@@ -120,7 +121,8 @@ FastImage.cancelPreload = preloaderId => {
     preloaderManager.cancelPreload(preloaderId)
 }
 
-FastImage.remove = source => preloaderManager.remove(source)
+FastImage.addReadOnlyCachePath = path => NativeModules.FastImageView.addReadOnlyCachePath(path)
+
 
 FastImage.defaultProps = {
     resizeMode: FastImage.resizeMode.cover,
