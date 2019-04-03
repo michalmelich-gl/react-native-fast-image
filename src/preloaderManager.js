@@ -7,8 +7,8 @@ class PreloaderManager {
     _subProgress = null
     _subComplete = null
 
-    preload = (sources, cacheControl, onProgress, onComplete) => {
-        return nativeManager.createPreloader().then(id => {
+    preload = (sources, cacheControl, onProgress, onComplete, preloadConfig) => {
+        return nativeManager.createPreloaderWithConfig(preloadConfig).then(id => {
             if (this._instances.size === 0) {
                 this._subProgress = nativeEmitter.addListener(
                     'fffastimage-progress',

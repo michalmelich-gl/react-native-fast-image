@@ -111,8 +111,9 @@ FastImage.preload = (
     cacheControl = FastImage.cacheControl.immutable,
     onProgress,
     onComplete,
+    preloadConfig
 ) => {
-    return preloaderManager.preload(sources, cacheControl, onProgress, onComplete)
+    return preloaderManager.preload(sources, cacheControl, onProgress, onComplete, preloadConfig)
 }
 
 FastImage.cancelPreload = preloaderId => {
