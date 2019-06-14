@@ -32,6 +32,11 @@ class FastImagePreloaderModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void createPreloaderWithConfig(Object preloadConfig, Promise promise) {
+        promise.resolve(preloaders++);
+    }
+
+    @ReactMethod
     public void preload(final int preloaderId, final ReadableArray sources, final String cacheControl) {
         final Activity activity = getCurrentActivity();
         if (activity == null) return;
