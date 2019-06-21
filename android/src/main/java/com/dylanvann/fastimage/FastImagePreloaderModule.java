@@ -3,6 +3,7 @@ package com.dylanvann.fastimage;
 import android.app.Activity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.facebook.react.bridge.Promise;
@@ -40,9 +41,16 @@ class FastImagePreloaderModule extends ReactContextBaseJavaModule {
     public void createPreloaderWithConfig(ReadableMap preloadConfig, Promise promise) {
         preloaders++;
 
-        fastImagePreloaders.put(preloaders,
-                new FastImagePreloaderConfiguration(preloadConfig.getString("namespace"), preloadConfig.getInt("maxCacheAge"))
-        );
+        if (preloadConfig == null) {
+            fastImagePreloaders.put(preloaders,
+                    new FastImagePreloaderConfiguration()
+            );
+        } else {
+            fastImagePreloaders.put(preloaders,
+                    new FastImagePreloaderConfiguration(preloadConfig.getString("namespace"), preloadConfig.getInt("maxCacheAge"))
+            );
+        }
+
 
         promise.resolve(preloaders);
     }
@@ -56,13 +64,12 @@ class FastImagePreloaderModule extends ReactContextBaseJavaModule {
             public void run() {
                 FastImagePreloaderListener preloader = new FastImagePreloaderListener(getReactApplicationContext(), preloaderId, sources.size());
                 FastImagePreloaderConfiguration fastImagePreloaderConfiguration = fastImagePreloaders.get(preloaderId);
-                String maxAgeSignature = String.valueOf(System.currentTimeMillis() / (fastImagePreloaderConfiguration.getMaxCacheAge() * 1000));
 
                 for (int i = 0; i < sources.size(); i++) {
                     final ReadableMap source = sources.getMap(i);
                     final FastImageSource imageSource = FastImageViewConverter.getImageSource(activity, source);
 
-                    Glide
+                    RequestBuilder requestBuilder = Glide
                             .with(activity.getApplicationContext())
                             // This will make this work for remote and local images. e.g.
                             //    - file:///
@@ -74,13 +81,20 @@ class FastImagePreloaderModule extends ReactContextBaseJavaModule {
                                     imageSource.isBase64Resource() ? imageSource.getSource() :
                                             imageSource.isResource() ? imageSource.getUri() : imageSource.getGlideUrl()
                             )
-                            // This image will have an expiration time of max age passed from the params.
-                            // re-request periodically (balanced performance, if period is big enough, say a week)
+
                             .listener(preloader)
-                            .apply(RequestOptions.circleCropTransform()
-                                    .signature(new ObjectKey(String.format("%s%s", fastImagePreloaderConfiguration.getNamespace(), maxAgeSignature)))
-                                    .diskCacheStrategy(DiskCacheStrategy.ALL))
-                            .apply(FastImageViewConverter.getOptions(source))
+
+
+                    if (fastImagePreloaderConfiguration.getNamespace() != null) {
+                        String maxAgeSignature = String.valueOf(System.currentTimeMillis() / (fastImagePreloaderConfiguration.getMaxCacheAge() * 1000));
+
+                        // This image will have an expiration time of max age passed from the params.
+                        // re-request periodically (balanced performance, if period is big enough, say a week)
+                        requestBuilder = requestBuilder.apply(new RequestOptions()
+                                .signature(new ObjectKey(String.format("%s%s", fastImagePreloaderConfiguration.getNamespace(), maxAgeSignature)))
+                        );
+                    }
+                    requestBuilder.apply(FastImageViewConverter.getOptions(source))
                             .preload();
                 }
             }
