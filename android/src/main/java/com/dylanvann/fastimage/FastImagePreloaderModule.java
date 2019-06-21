@@ -71,6 +71,7 @@ class FastImagePreloaderModule extends ReactContextBaseJavaModule {
 
                     RequestBuilder requestBuilder = Glide
                             .with(activity.getApplicationContext())
+                            .downloadOnly()
                             // This will make this work for remote and local images. e.g.
                             //    - file:///
                             //    - content://
@@ -82,7 +83,7 @@ class FastImagePreloaderModule extends ReactContextBaseJavaModule {
                                             imageSource.isResource() ? imageSource.getUri() : imageSource.getGlideUrl()
                             )
 
-                            .listener(preloader)
+                            .listener(preloader);
 
 
                     if (fastImagePreloaderConfiguration.getNamespace() != null) {
