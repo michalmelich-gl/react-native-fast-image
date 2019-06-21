@@ -3,7 +3,7 @@ package com.dylanvann.fastimage;
 import android.app.Activity;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -11,6 +11,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,11 +74,12 @@ class FastImagePreloaderModule extends ReactContextBaseJavaModule {
                                     imageSource.isBase64Resource() ? imageSource.getSource() :
                                             imageSource.isResource() ? imageSource.getUri() : imageSource.getGlideUrl()
                             )
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
                             // This image will have an expiration time of max age passed from the params.
                             // re-request periodically (balanced performance, if period is big enough, say a week)
-                            .signature(new ObjectKey(String.format("%s%s", fastImagePreloaderConfiguration.getNamespace(), maxAgeSignature)))
                             .listener(preloader)
+                            .apply(RequestOptions.circleCropTransform()
+                                    .signature(new ObjectKey(String.format("%s%s", fastImagePreloaderConfiguration.getNamespace(), maxAgeSignature)))
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL))
                             .apply(FastImageViewConverter.getOptions(source))
                             .preload();
                 }
